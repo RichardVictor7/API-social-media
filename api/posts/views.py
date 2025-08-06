@@ -1,10 +1,9 @@
-from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .models import Post
 from .serializers import PostSerializer
-from rest_framework import status
-from rest_framework.pagination import PageNumberPagination
+from rest_framework import status, generics
+from rest_framework.views import APIView
 # Create your views here.
 
 class GetPostOrAddPost(APIView):
@@ -51,12 +50,10 @@ class DeleteOrUpdatePost(APIView):
             status=status.HTTP_204_NO_CONTENT
         )
     
-class FeedPosts(APIView):
-    pagination_class = PageNumberPagination
-
-    def get(self, request):
-        posts = Post.objects.all()
-        paginator = self.pagination_class()
-        page = paginator.paginate_queryset(posts, request)
-        serializer = PostSerializer(page, many=True)
-        return paginator.get_paginated_response(serializer.data)
+class FeedPosts(generics.ListAPIView):
+    """
+    Retorna todos os posts com paginação.
+    """
+    queryset = Post.objects.all().order_by('-data_criacao')
+    serializer_class = PostSerializer
+    # A classe de paginação é herdada automaticamente das configurações (settings.py)
