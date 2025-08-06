@@ -1,0 +1,22 @@
+# Environments
+# Ignora diretórios de ambientes virtuais.
+/venv/
+.venv/
+env/
+
+# Byte-compiled / optimized files
+# Ignora arquivos gerados pelo Python.
+__pycache__/
+*.pyc
+
+# Database file
+# Previne que o banco de dados de desenvolvimento seja enviado para o Git.
+api/db.sqlite3
+
+# User-uploaded media
+# Arquivos de mídia devem ser armazenados em outro lugar em produção (ex: S3).
+api/media/
+
+# IDE configuration
+.idea/
+.vscode/
