@@ -727,7 +727,7 @@ curl -X POST http://127.0.0.1:8000/posts/ \
 
 ### 4. Verificar CORS
 - Certifique-se de que o CORS está configurado corretamente
-- Verifique se a URL do frontend está na lista de `CORS_ALLOWED_ORIGINS`
+- Verifique se a URL do frontend está na lista de `eCORS_ALLOWED_ORIGINS`
 
 ---
 

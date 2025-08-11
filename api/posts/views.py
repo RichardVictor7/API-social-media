@@ -1,9 +1,10 @@
+from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .models import Post
-from .serializers import PostSerializer
-from rest_framework import status, generics
-from rest_framework.views import APIView
+from .serializers import PostSerializer, PostLikeSerializer
+from rest_framework import status
+from rest_framework.pagination import PageNumberPagination
 # Create your views here.
 
 class GetPostOrAddPost(APIView):
@@ -50,10 +51,41 @@ class DeleteOrUpdatePost(APIView):
             status=status.HTTP_204_NO_CONTENT
         )
     
-class FeedPosts(generics.ListAPIView):
-    """
-    Retorna todos os posts com paginação.
-    """
-    queryset = Post.objects.all().order_by('-data_criacao')
-    serializer_class = PostSerializer
-    # A classe de paginação é herdada automaticamente das configurações (settings.py)
+class FeedPosts(APIView):
+    pagination_class = PageNumberPagination
+
+    def get(self, request):
+        posts = Post.objects.all()
+        paginator = self.pagination_class()
+        page = paginator.paginate_queryset(posts, request)
+        serializer = PostSerializer(page, many=True)
+        return paginator.get_paginated_response(serializer.data)
+
+
+class PostLikeView(APIView):
+    """View para toggle de likes em posts"""
+    
+    def post(self, request, id_post):
+        """Toggle do status de like (true/false)"""
+        post = get_object_or_404(Post, id=id_post)
+        
+        serializer = PostLikeSerializer(post, data={})
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'id': post.id,
+                'liked': post.liked,
+                'message': f'Post {"curtido" if post.liked else "descurtido"} com sucesso!'
+            })
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def get(self, request, id_post):
+        """Obter status atual do like"""
+        post = get_object_or_404(Post, id=id_post)
+        
+        return Response({
+            'id': post.id,
+            'liked': post.liked
+        })
