@@ -196,7 +196,7 @@ API-social-media/
 ### Ativar o Django Admin:
 Criar um superusuário
 ```bash
-python manage.py createsuperuser
+python api/manage.py createsuperuser
 ```
 Preencha nome, e-mail e senha.
 
