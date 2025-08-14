@@ -49,12 +49,12 @@ python manage.py migrate
 
 5. **Crie um superusuário (opcional)**
 ```bash
-python manage.py createsuperuser
+python api/manage.py createsuperuser
 ```
 
 6. **Execute o servidor**
 ```bash
-python manage.py runserver
+python api/manage.py runserver
 ```
 
 O servidor estará rodando em `http://127.0.0.1:8000/`
@@ -189,42 +189,22 @@ API-social-media/
 └── README.md              # Documentação
 ```
 
-## 🔧 Configurações Importantes
 
-### CORS (para desenvolvimento)
-Se você estiver desenvolvendo o frontend em uma porta diferente, adicione ao `settings.py`:
 
-```python
-INSTALLED_APPS = [
-    # ... outras apps
-    'corsheaders',
-]
+## 🛠 Visualizando o Banco de Dados
 
-MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
-    # ... outros middlewares
-]
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Vite default
-    "http://127.0.0.1:5173",
-]
-```
-
-E instale:
+### Ativar o Django Admin:
+Criar um superusuário
 ```bash
-pip install django-cors-headers
+python api/manage.py createsuperuser
 ```
+Preencha nome, e-mail e senha.
 
-## 🚀 Deploy
-
-Para produção, considere:
-- Usar PostgreSQL ou MySQL
-- Configurar variáveis de ambiente
-- Usar Gunicorn ou uWSGI
-- Configurar nginx
-- Implementar autenticação
-- Adicionar validações de segurança
+Acessar o painel
+```bash
+http://127.0.0.1:8000/admin/
+```
+Entre com seu usuário e senha de superusuário que voce criou.
 
 ## 📄 Licença
 

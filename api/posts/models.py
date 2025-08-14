@@ -7,3 +7,4 @@ class Post(models.Model):
     cor = models.CharField(max_length=20)
     comentario = models.TextField()
     data_criacao = models.DateTimeField(auto_now_add=True)
+    liked = models.BooleanField(default=False) 
